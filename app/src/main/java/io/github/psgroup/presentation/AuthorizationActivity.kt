@@ -1,7 +1,9 @@
 package io.github.psgroup.presentation
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import io.github.psgroup.R
 import io.github.psgroup.application.PizzaMakerApplication
 import io.github.psgroup.model.AuthorizationModel
@@ -16,16 +18,17 @@ class AuthorizationActivity : AppCompatActivity(), AuthorizationModel.IPresenter
         setContentView(R.layout.activity_authorization)
 
         button.setOnClickListener {
-            // TODO: Добавить вызов логинации
+            mModel.signIn(loginInput.text.toString(), passwordInput.text.toString())
         }
     }
 
     override fun waitSignIn(isWait: Boolean) {
-        // TODO: Добавить блокировку кнопки авторизации
+        button.visibility = if (!isWait) View.VISIBLE else View.INVISIBLE
+        progress.visibility = if (isWait) View.VISIBLE else View.INVISIBLE
     }
 
     override fun signInCompleted() {
-        // TODO: Добавить переход на экран приготовления
+        startActivity(Intent(this, CookActivity::class.java))
     }
 
     override fun onResume() {
